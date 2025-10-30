@@ -15,7 +15,7 @@ START_BUTTON = [
     [Button.inline("• ʙᴀᴄᴋ •", data="back_start")]
 ]
 
-HELP_STRING = f"★ 𝒔𝒉𝒐𝒏𝒂𝒙 𝒔𝒑𝒂𝒎 𝒉𝒆𝒍𝒑𝒎𝒆𝒏𝒖 ★\n\n» **ᴄʟɪᴄᴋ ᴏɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴꜱ ꜰᴏʀ ʜᴇʟᴘ**\n» **ᴅᴇᴠᴇʟᴏᴘᴇʀ: @II_Sexcy_Jerry_ll**"
+HELP_STRING = f"★ 𓆩𝐀𝐒𓆪 ꭙ 𝐉𝐄𝐑𝐑𝐘 ⌯ 𝐊𝐈𝐍𝐆💀 𝒉𝒆𝒍𝒑𝒎𝒆𝒏𝒖 ★\n\n» **ᴄʟɪᴄᴋ ᴏɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴꜱ ꜰᴏʀ ʜᴇʟᴘ**\n» **ᴅᴇᴠᴇʟᴏᴘᴇʀ: @II_Sexcy_Jerry_ll**"
 
 # Messages for different categories
 extra_msg = f"""
@@ -84,6 +84,20 @@ spam_msg = f"""
 **© @ALONE_WAS_BOT**
 """
 
+async def button_handler(event):
+    # event.data is bytes, so decode if needed
+    data = event.data.decode("utf-8")
+    
+    if data == "repo":
+        await event.answer(
+            "𝗕𝗛𝗔𝗚 𝗝𝗔𝗔 𝗟𝗢𝗗𝗘 𝗥𝗘𝗣𝗢 𝗟𝗘𝗚𝗔 𓆩𝐀𝐒𓆪 ꭙ 𝐉𝐄𝐑𝐑𝐘 ⌯ 𝐊𝐈𝐍𝐆 𝗞𝗔 𝗟𝗨𝗠𝗗 𝗟𝗘𝗟𝗘 😎\n\n ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴀʟᴛʀᴏɴᴇ x ʙᴏᴛs",
+            alert=True
+        )
+
+# Attach to all bots
+for bot in BOTS:
+    bot.add_event_handler(button_handler, events.CallbackQuery)
+
 # ---------------- Handlers ----------------
 
 async def send_help(event):
@@ -91,7 +105,7 @@ async def send_help(event):
         try:
             await event.client.send_file(
                 event.chat_id,
-                "https://files.catbox.moe/mg5jsu.jpg",
+                "https://t.me/ANIME_HUB6229/81",
                 caption=HELP_STRING,
                 buttons=START_BUTTON
             )
@@ -120,11 +134,11 @@ async def back_to_start(event):
     bot_id = AltBot.id
 
     # Custom message
-    TEXT = f"**ʜᴇʏ​ [{event.sender.first_name}](tg://user?id={event.sender.id}),\n\nɪ ᴀᴍ [{bot_name}](tg://user?id={bot_id})​**\n━━━━━━━━━━━━━━━━━━━\n\n"
+    TEXT = f"**ʜᴇʏ​ [{event.sender.first_name}]\n\nɪ ᴀᴍ [{bot_name}](tg://user?id={bot_id})​**\n━━━━━━━━━━━━━━━━━━━\n\n"
     TEXT += f"» **ᴍʏ ᴅᴇᴠᴇʟᴏᴘᴇʀ​ : [𓆩𝐀𝐒𓆪 ꭙ 𝐉𝐄𝐑𝐑𝐘 ⌯ 𝐊𝐈𝐍𝐆💀 #𝐅𝐔𝐂𝐊𝐄𝐑](tg://openmessage?user_id=7290768963)**\n\n"
-    TEXT += f"» **xʙᴏᴛꜱ ᴠᴇʀsɪᴏɴ :** M3.3\n"
-    TEXT += f"» **ᴘʏᴛʜᴏɴ ᴠᴇʀsɪᴏɴ :** 3.11.3\n"
-    TEXT += f"» **ᴛᴇʟᴇᴛʜᴏɴ ᴠᴇʀsɪᴏɴ :** 1.41.2\n━━━━━━━━━━━━━━━━━"
+    TEXT += f"» **xʙᴏᴛꜱ ᴠᴇʀsɪᴏɴ :** `M3.3\n`"
+    TEXT += f"» **ᴘʏᴛʜᴏɴ ᴠᴇʀsɪᴏɴ :** `3.11.3\n`"
+    TEXT += f"» **ᴛᴇʟᴇᴛʜᴏɴ ᴠᴇʀsɪᴏɴ :** `1.41.2\n`━━━━━━━━━━━━━━━━━"
 
     # Custom buttons layout
     CUSTOM_BUTTONS = [
@@ -133,7 +147,7 @@ async def back_to_start(event):
             Button.url("• ᴄʜᴀɴɴᴇʟ •", "https://t.me/ASUR_SAMRAJY_NET"),
             Button.url("• sᴜᴘᴘᴏʀᴛ •", "https://t.me/ASUR_SAMRAJY_NET")
         ],
-        [Button.url("• ʀᴇᴘᴏ •", "https://t.me/REPO_679/2")]
+        [Button.inline("• ʀᴇᴘᴏ •", data="repo")]
     ]
 
     await event.edit(TEXT, buttons=CUSTOM_BUTTONS)
@@ -144,3 +158,4 @@ for bot in BOTS:
     bot.add_event_handler(send_help, events.NewMessage(incoming=True, pattern=fr"\{hl}help(?: |$)(.*)"))
     bot.add_event_handler(handle_callback, events.CallbackQuery)
     bot.add_event_handler(back_to_start, events.CallbackQuery(data=b"back_start"))
+
