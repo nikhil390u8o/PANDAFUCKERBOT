@@ -1,78 +1,89 @@
 import sys
-import heroku3
 from os import execl, getenv
 from telethon import events
 from datetime import datetime
 from config import (
     X1, X2, X3, X4, X5, X6, X7, X8, X9, X10,
-    OWNER_ID, SUDO_USERS, HEROKU_APP_NAME, HEROKU_API_KEY, CMD_HNDLR as hl
+    OWNER_ID, SUDO_USERS, CMD_HNDLR as hl
 )
 
-# List of all bot clients
 ALL_BOTS = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10]
 
 
-# 🏓 Ping command
+# ✅ Ping Command
 for bot in ALL_BOTS:
     @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}ping(?: |$)(.*)"))
     async def ping(e):
         if e.sender_id in SUDO_USERS:
             start = datetime.now()
-            altron = await e.reply("» __𝐒𝐇𝐎𝐍𝐀𝐐𝐔𝐄𝐄𝐍__")
+            reply = await e.reply("» __[𝗔𝗟𝗧𝗥𝗢𝗡] ✘ [ 𝗕𝗢𝗧𝗦 ]__")
             end = datetime.now()
-            mp = (end - start).microseconds / 1000
-            await altron.edit(
-                f"__🤖 ᴘɪɴɢ__\n» `αиσиумσυѕ ραρα нєяє αв кιѕкι gαи∂ мαяυ {mp} ᴍꜱ`"
-            )
+            ms = (end - start).microseconds / 1000
+            await reply.edit(f"`🤖 ᴘɪɴɢ\n» 𓆩𝐀𝐒𓆪 ꭙ 𝐉𝐄𝐑𝐑𝐘 ⌯ 𝐊𝐈𝐍𝐆💀 #𝐅𝐔𝐂𝐊𝐄𝐑 ραρα нєяє αв кιѕкι gαи∂ мαяυ {mp} ᴍꜱ`")
+        else:
+            await e.reply("» ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴀ sᴜᴅᴏ ᴜsᴇʀ ❌")
 
 
-# 🔁 Reboot command
+# 🔁 Reboot Command
 for bot in ALL_BOTS:
     @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}reboot(?: |$)(.*)"))
-    async def restart(e):
+    async def reboot(e):
         if e.sender_id in SUDO_USERS:
             await e.reply("`ʀᴇsᴛᴀʀᴛɪɴɢ ʙᴏᴛ...`")
-            try:
-                await bot.disconnect()
-            except Exception:
-                pass
+            await bot.disconnect()
             execl(sys.executable, sys.executable, *sys.argv)
+        else:
+            await e.reply("» ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴀ sᴜᴅᴏ ᴜsᴇʀ ❌")
 
 
-# 🧑‍💻 Add sudo command
+# 🧑‍💻 Add Sudo User
 for bot in ALL_BOTS:
     @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}sudo(?: |$)(.*)"))
-    async def addsudo(event):
-        if event.sender_id == OWNER_ID:
-            Heroku = heroku3.from_key(HEROKU_API_KEY)
-            sudousers = getenv("SUDO_USERS", default=None)
+    async def add_sudo(event):
+        if event.sender_id != OWNER_ID:
+            return await event.reply("» ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴛʜᴇ ᴏᴡɴᴇʀ ❌")
 
-            ok = await event.reply("» __ᴄʜᴀʟ ᴛᴜᴊʜᴇ ᴀɴᴏɴʏᴍᴏᴜs ᴘᴀᴘᴀ ɴᴇ sᴜᴅᴏ ᴅᴇ ᴅɪʏᴀ ᴀꜱ...__")
-            target = ""
-            if HEROKU_APP_NAME is not None:
-                app = Heroku.app(HEROKU_APP_NAME)
-            else:
-                await ok.edit("`[HEROKU]: Please setup your HEROKU_APP_NAME`")
-                return
-            heroku_var = app.config()
+        ok = await event.reply("» ᴘʀᴏᴄᴇssɪɴɢ ʏᴏᴜʀ sᴜᴅᴏ ʀᴇǫᴜᴇsᴛ...")
 
-            try:
-                reply_msg = await event.get_reply_message()
-                target = reply_msg.sender_id
-            except:
-                await ok.edit("» ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ !!")
-                return
+        reply_msg = await event.get_reply_message()
+        if not reply_msg:
+            return await ok.edit("» ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ ᴛᴏ ᴀᴅᴅ ᴀs sᴜᴅᴏ !!")
 
-            if str(target) in sudousers:
-                await ok.edit("» ᴀʙᴇ ᴛᴜ ᴘʜᴇʟᴇ sᴇ sᴜᴅᴏ ᴍᴇ ʜᴀɪ !!")
-            else:
-                if len(sudousers) > 0:
-                    newsudo = f"{sudousers} {target}"
-                else:
-                    newsudo = f"{target}"
-                await ok.edit(f"» **ɴᴇᴡ ꜱᴜᴅᴏ ᴜꜱᴇʀ**: `{target}`\n» `ʀᴇsᴛᴀʀᴛɪɴɢ ʙᴏᴛ...`")
-                heroku_var["SUDO_USERS"] = newsudo
+        target = reply_msg.sender_id
+        if target in SUDO_USERS:
+            return await ok.edit("» ᴜsᴇʀ ᴀʟʀᴇᴀᴅʏ ɪɴ sᴜᴅᴏ ʟɪsᴛ ✅")
 
-        elif event.sender_id in SUDO_USERS:
-            await event.reply("» ꜱᴏʀʀʏ, ʏᴇ ᴄᴏᴍᴍᴀɴᴅ ʙᴀss ᴛᴇʀᴀ ᴀɴᴏɴʏᴍᴏᴜs ʙᴀᴀᴘ ᴅᴇ sᴋᴛᴀ ʜᴀɪ.")
+        SUDO_USERS.append(int(target))
+        await ok.edit(f"» **ɴᴇᴡ sᴜᴅᴏ ᴜsᴇʀ ᴀᴅᴅᴇᴅ:** `{target}` ✅")
 
+
+# 🚫 Remove Sudo User
+for bot in ALL_BOTS:
+    @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}rmsudo(?: |$)(.*)"))
+    async def remove_sudo(event):
+        if event.sender_id != OWNER_ID:
+            return await event.reply("» ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴛʜᴇ ᴏᴡɴᴇʀ ❌")
+
+        reply_msg = await event.get_reply_message()
+        if not reply_msg:
+            return await event.reply("» ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ ᴛᴏ ʀᴇᴍᴏᴠᴇ ᴛʜᴇᴍ ғʀᴏᴍ sᴜᴅᴏ")
+
+        target = reply_msg.sender_id
+        if target not in SUDO_USERS:
+            return await event.reply("» ᴜsᴇʀ ɴᴏᴛ ɪɴ sᴜᴅᴏ ʟɪsᴛ ❌")
+
+        SUDO_USERS.remove(int(target))
+        await event.reply(f"» **ʀᴇᴍᴏᴠᴇᴅ ғʀᴏᴍ sᴜᴅᴏ:** `{target}` ✅")
+
+
+# 📜 Show Sudo List
+for bot in ALL_BOTS:
+    @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}sudolist(?: |$)(.*)"))
+    async def sudo_list(event):
+        if not SUDO_USERS:
+            return await event.reply("» ɴᴏ sᴜᴅᴏ ᴜsᴇʀs ᴀᴅᴅᴇᴅ ʏᴇᴛ ❌")
+
+        text = "» **ᴀᴄᴛɪᴠᴇ sᴜᴅᴏ ᴜsᴇʀs:**\n\n"
+        for i, user_id in enumerate(SUDO_USERS, 1):
+            text += f"**{i}.** `{user_id}`\n"
+        await event.reply(text)
