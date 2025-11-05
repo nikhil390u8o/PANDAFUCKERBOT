@@ -49,7 +49,4 @@ for bot in BOTS:
 
 # Attach the same /start handler to all bots
 for bot in BOTS:
-    bot.add_event_handler(start_handler, events.NewMessage(pattern="/start"))
-    
-
-    
+    bot.add_event_handler(start_handler, events.NewMessage(pattern="/start")
